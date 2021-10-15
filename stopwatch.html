@@ -7,36 +7,73 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!--Animate.css Stylesheet-->
 	<link href="../path/animate.css" type="text/css" rel="stylesheet">
+	<!-- Animate.css CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 	<!--Bootstrap Stylesheet-->
 	<link href="../path/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+	<!-- Bootstrap CDN -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<!--Fontawesome Stylesheet-->
 	<link href="../path/fontawesome/css/all.css" type="text/css" rel="stylesheet">
 	<!--External Stylesheet-->
 	<link rel="stylesheet" type="text/css" href="">
 	<!--Internal Stylesheet-->
 	<style type="text/css">
-		
+		*{
+			padding: 0px;
+			margin: 0px;
+		}
+		#start{
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+			
+		}
+		#start:hover{
+			box-shadow: 2px 2px 2px 2px;
+		}
+		#stopwatchDiv{
+			/* font-size: x-large; */
+			
+		}
 	</style>
 </head>
 </head>
-<body>
+<body id="body">
 	<div class="container">
-		<div class="row">
+		<div class="row mb-5">
+			<div class="col mt-2">
+				<div id="stopwatchDiv" class="animate__animated animate__flash animate__infinite animate__slower"><i class="fas fa-stopwatch fa-1x" ></i>&nbsp;<span>Stopwatch</span></div>
+			</div>
+			<div class="col mt-2">
+				<div class="custom-control custom-switch text-right">
+					<input type="checkbox" class="custom-control-input" id="customSwitch1">
+					<label class="custom-control-label" id="customSwitchLabel" for="customSwitch1">Dark mode</label>
+				 </div>
+			</div>
+		</div>
+        <div class="row mt-5">
+			<div class="col">
+
+			</div>
+			<div class="col">
+				<div class="row">
+					<div class=" col-12">
+						<h2 class="" id="counterDiv"><span id="minutes">00</span>:<span id='seconds'>00</span>.<span id="milliseconds">00</span></h2>
+					</div>
+					<div class="col-12 ml-4 mt-4">
+						<p class="text-center align-content-center bg-primary" id="start"><i class="fas fa-play mt-4"></i></p>
+						<button class="btn btn-danger" id="stop">Stop</button>
+						<button class="btn btn-success" id="reset">Reset</button>
+					</div>
+				</div>
+			</div>
 			<div class="col">
 
 			</div>
 		</div>
         <div class="row">
-			<div class=" col">
-                <h2 class=""><span id='second'>00</span>:<span id="millisecond">00</span></h2>
-			</div>
-		</div>
-        <div class="row">
-			<div class="col">
-                <button class="btn btn-primary" id="start">Start</button>
-                <button class="btn btn-danger" id="stop">Stop</button>
-                <button class="btn btn-success" id="reset">Reset</button>
-			</div>
+			
 		</div>
 	</div>
 	<!--Javascript Files jquery, popper, bootstrap-->
@@ -45,11 +82,119 @@
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" language="javascript">
         'use strict';
-		$(document).ready(function(){
-			var start = document.getElementById('start');
-            var stop = document.getElementById('start');
-            var reset = document.getElementById('reset');
-		})
+		window.onload = function(){
+			//syntax sugar function for assigning ids
+			let id = (id) => document.getElementById(id);
+			
+			//Begin Convert page to dark mode and back to light mode
+			let darkMode = id("darkMode"),
+				body = document.body,
+				counterDiv = id("counterDiv"),
+				customSwitch = id("customSwitch1"),
+				customSwitchLabel = id("customSwitchLabel"),
+				stopwatchDiv = id("stopwatchDiv");
+			   //console.log(body);
+
+			customSwitch.onclick = function() {
+				body.classList.toggle("bg-dark");
+				//alert(body.className)
+				if (body.className == "bg-dark") {
+				counterDiv.setAttribute("class", "text-light");
+				customSwitchLabel.style.color = "white";
+				customSwitchLabel.innerHTML = "Light mode";
+				this.style.backgroundColor = "white";
+				stopwatchDiv.style.color = "white";
+				} else{
+				counterDiv.setAttribute("class", "text-dark");
+				customSwitchLabel.style.color = "black";
+				customSwitchLabel.innerHTML = "Dark mode";
+				this.style.backgroundColor = "black";
+				stopwatchDiv.style.color = "black";
+				}
+				
+			}
+			
+
+			//Start the stopwatch counter
+			var seconds = 0; 
+ 			var milliseconds = 0; 
+			var minutes = 0;
+			 
+			//assigning variables using let keyword
+			let start = id("start"),
+				stop = id("stop"),
+				reset = id("reset"),
+				changeSecond = id("seconds"),
+				changeMilliseconds = id("milliseconds"),
+				changeMinutes = id("minutes");
+			var Interval;
+
+			//onclick of start button
+			start.onclick = function(){
+				clearInterval(Interval);
+				Interval = setInterval(timerFunction, 10);
+			};
+
+			//onclick of stop button
+			stop.onclick = function(){
+				clearInterval(Interval);
+			};
+
+			//onclick of reset button
+			reset.onclick = function(){
+				clearInterval(Interval);
+				seconds = 0;
+				milliseconds = 0;
+				minutes = 0;
+				var secondScreen = "00", 
+ 				  millisecondsScreen = "00",
+				  minutesScreen = "00";
+				changeSecond.innerHTML = secondScreen;
+				changeMilliseconds.innerHTML = millisecondsScreen;
+				changeMinutes.innerHTML = minutesScreen;
+			};
+
+			var timerFunction = () =>{
+
+				milliseconds++;
+				
+				if (milliseconds <= 9) {
+					changeMilliseconds.innerHTML = "0" + milliseconds;
+				}
+				if(milliseconds > 9){
+					changeMilliseconds.innerHTML =  milliseconds;
+				}
+
+				if (milliseconds >= 99) {
+					milliseconds = 0;
+					seconds++;
+				}
+
+				if (seconds <= 9) {
+					changeSecond.innerHTML = "0" + seconds;
+				}
+				if (seconds > 9) {
+					changeSecond.innerHTML = seconds;
+				}
+				if (seconds >= 59) {
+					seconds = 0;
+					minutes++;
+				}
+				if (minutes <= 9) {
+					changeMinutes.innerHTML = "0" + minutes;
+				}
+				if (minutes > 9) {
+					changeMinutes.innerHTML =  minutes;
+				}
+
+				//alert('I am here');
+			}
+		}
+		/**********************************************/
+		/***** Author: Oyekola Toheeb ****************/
+		/***** Program: Stopwatch ********************/
+		/***** Date: October/15/2021 *****************/
+		/*********************************************/
 	</script>
 </body>
 </html>
