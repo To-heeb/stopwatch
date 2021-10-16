@@ -26,18 +26,40 @@
 		.buttonCircle{
 			width: 70px;
 			height: 70px;
-			border-radius: 50%;
 			
 		}
 		#counterDiv{
+			font-size: 70px;
+		}
+		#start:hover, #stop:hover, #reset:hover{
+			box-shadow: 3px 3px 5px grey;
+		}
+		@media screen and (max-width: 992px) {
+		#counterDiv{
 			font-size: 50px;
 		}
-		#start:hover{
-			box-shadow: 2px 2px 2px 2px;
+		.buttonCircle{
+			width: 60px;
+			height: 60px;
+ 			}
 		}
-		#stopwatchDiv{
-			/* font-size: x-large; */
-			
+		@media screen and (max-width: 480px) {
+		#counterDiv{
+			font-size: 50px;
+		}
+		.buttonCircle{
+			width: 60px;
+			height: 60px;
+ 			}
+		}
+		@media screen and (max-width: 360px) {
+		#counterDiv{
+			font-size: 40px;
+		}
+		.buttonCircle{
+			width: 45px;
+			height: 45px;
+ 			}
 		}
 	</style>
 </head>
@@ -61,13 +83,15 @@
 			</div>
 			<div class="col">
 				<div class="row">
-					<div class=" col-12">
-						<h2 class="" id="counterDiv"><span id="minutes">00</span>:<span id='seconds'>00</span>.<span id="milliseconds">00</span></h2>
+					<!-- Counter Div -->
+					<div class="col-12 d-flex justify-content-around">
+						<h2 class="" id="counterDiv"><p id="counterPara"><span id="minutes">00</span>:<span id='seconds'>00</span>.<span id="milliseconds">00</span></p></h2>
 					</div>
-					<div class="col-12 ml-4 mt-4" id="buttonDiv">
-						<p class="text-center align-content-center bg-primary buttonCircle" id="start"><i class="fas fa-play mt-4"></i></p>
-						<button class="btn btn-danger" id="stop">Stop</button>
-						<button class="btn btn-success" id="reset">Reset</button>
+					<!-- Button Div -->
+					<div class="col-12  mt-4 d-flex justify-content-between" id="buttonDiv">
+						<button class="text-center btn bg-primary rounded-circle buttonCircle" id="start"><i class="fas fa-play"></i></button>
+						<button class="text-center btn btn-danger rounded-circle buttonCircle" id="stop"><i class="fas fa-stop"></i></button>
+						<button class="text-center btn btn-success rounded-circle buttonCircle" id="reset"><i class="fas fa-retweet"></i></button>
 					</div>
 				</div>
 			</div>
@@ -95,7 +119,8 @@
 				counterDiv = id("counterDiv"),
 				customSwitch = id("customSwitch1"),
 				customSwitchLabel = id("customSwitchLabel"),
-				stopwatchDiv = id("stopwatchDiv");
+				stopwatchDiv = id("stopwatchDiv"),
+				counterPara = id("counterPara");
 			   //console.log(body);
 
 			customSwitch.onclick = function() {
@@ -136,15 +161,6 @@
 			start.onclick = function(){
 				clearInterval(Interval);
 				Interval = setInterval(timerFunction, 10);
-				var div = document.createElement("div");
-				var buttonLabel = document.createTextNode("<i class='fas fa-play mt-4'></i>");
-				div.appendChild(buttonLabel);
-				var buttonClass = document.createAttribute("class");
-				buttonClass.value = "buttonCircle bg-danger";
-				var buttonId = document.createAttribute("id");
-				buttonId.value = "stop";
-				var buttonDiv = document.getElementById("buttonDiv");
-				buttonDiv.appendChild(div).setAttributeNode(buttonClass, buttonId);
 			};
 
 			//onclick of stop button
@@ -187,6 +203,12 @@
 				}
 				if (seconds > 9) {
 					changeSecond.innerHTML = seconds;
+				}
+				if (seconds >= 55 ) {
+					counterPara.setAttribute("class", "animate__flash animate__animated animate__slower animate__infinite");
+				}
+				if ( seconds == 59) {
+					counterPara.removeAttribute("class");
 				}
 				if (seconds >= 59) {
 					seconds = 0;
