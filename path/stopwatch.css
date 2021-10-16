@@ -1,0 +1,47 @@
+/*********************************************/
+/***** Author: Oyekola Toheeb ****************/
+/***** Program: Stopwatch ********************/
+/***** Date: October/15/2021 *****************/
+/*********************************************/
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.buttonCircle{
+    width: 70px;
+    height: 70px;
+    
+}
+#counterDiv{
+    font-size: 70px;
+}
+#start:hover, #stop:hover, #reset:hover{
+    box-shadow: 3px 3px 5px grey;
+}
+@media screen and (max-width: 992px) {
+#counterDiv{
+    font-size: 50px;
+}
+.buttonCircle{
+    width: 60px;
+    height: 60px;
+     }
+}
+@media screen and (max-width: 480px) {
+#counterDiv{
+    font-size: 50px;
+}
+.buttonCircle{
+    width: 60px;
+    height: 60px;
+     }
+}
+@media screen and (max-width: 360px) {
+#counterDiv{
+    font-size: 40px;
+}
+.buttonCircle{
+    width: 45px;
+    height: 45px;
+     }
+}
