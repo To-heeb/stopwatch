@@ -23,11 +23,14 @@
 			padding: 0px;
 			margin: 0px;
 		}
-		#start{
+		.buttonCircle{
 			width: 70px;
 			height: 70px;
 			border-radius: 50%;
 			
+		}
+		#counterDiv{
+			font-size: 50px;
 		}
 		#start:hover{
 			box-shadow: 2px 2px 2px 2px;
@@ -61,8 +64,8 @@
 					<div class=" col-12">
 						<h2 class="" id="counterDiv"><span id="minutes">00</span>:<span id='seconds'>00</span>.<span id="milliseconds">00</span></h2>
 					</div>
-					<div class="col-12 ml-4 mt-4">
-						<p class="text-center align-content-center bg-primary" id="start"><i class="fas fa-play mt-4"></i></p>
+					<div class="col-12 ml-4 mt-4" id="buttonDiv">
+						<p class="text-center align-content-center bg-primary buttonCircle" id="start"><i class="fas fa-play mt-4"></i></p>
 						<button class="btn btn-danger" id="stop">Stop</button>
 						<button class="btn btn-success" id="reset">Reset</button>
 					</div>
@@ -133,6 +136,15 @@
 			start.onclick = function(){
 				clearInterval(Interval);
 				Interval = setInterval(timerFunction, 10);
+				var div = document.createElement("div");
+				var buttonLabel = document.createTextNode("<i class='fas fa-play mt-4'></i>");
+				div.appendChild(buttonLabel);
+				var buttonClass = document.createAttribute("class");
+				buttonClass.value = "buttonCircle bg-danger";
+				var buttonId = document.createAttribute("id");
+				buttonId.value = "stop";
+				var buttonDiv = document.getElementById("buttonDiv");
+				buttonDiv.appendChild(div).setAttributeNode(buttonClass, buttonId);
 			};
 
 			//onclick of stop button
